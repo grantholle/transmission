@@ -1,0 +1,10 @@
+*~
+.DS_Store
+.Apple*
+*.sw*
+node_modules
+npm-debug.log
+.env
+tmp
+.vscode
+example.js

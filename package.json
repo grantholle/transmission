@@ -1,0 +1,29 @@
+{
+  "author": "Grant Holle <https://github.com/grantholle>",
+  "name": "transmission-promise",
+  "description": "An API client for Transmission that uses promises",
+  "version": "1.0.0",
+  "keywords": [
+    "torrents",
+    "transmission",
+    "bittorrent"
+  ],
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --ui bdd --reporter spec --colors",
+    "lint": "./node_modules/.bin/standard"
+  },
+  "repository": "https://github.com/grantholle/transmission",
+  "main": "index.js",
+  "devDependencies": {
+    "chai": "^1.9.2",
+    "dotenv": "^0.4.0",
+    "mocha": "^2.0.1",
+    "standard": "^10.0.3"
+  },
+  "dependencies": {
+    "async": "^2.1.4",
+    "safe-buffer": "^5.1.1",
+    "uuid": "^3.1.0"
+  },
+  "license": "MIT"
+}
