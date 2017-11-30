@@ -78,7 +78,7 @@ transmission.addFile('path').then(res => ...)
 
 // Include additional options
 transmission.addFile('path', {
-	'download-dir': '/a/path/different/than/my/settings'
+  'download-dir': '/a/path/different/than/my/settings'
 }).then(res => ...)
 ```
 
@@ -140,27 +140,27 @@ Gets torrent information. If `ids` is falsy, it will get all the torrents. The `
 ```js
 // A selection of torrents (one or many)
 transmission.get(ids).then(res => {
-	for (const torrent of res.torrents) {
-		//
-	}
+  for (const torrent of res.torrents) {
+    //
+  }
 })
 
 // All torrents and only the upload ratio
 transmission.get(false, ['uploadRatio']).then(res => {
-	for (const torrent of res.torrents) {
-		// torrent.uploadRatio
-	}
+  for (const torrent of res.torrents) {
+    // torrent.uploadRatio
+  }
 })
 
 // Get all torrents and remove it if status is stopped.
 transmission.get().then(res => {
-	for (const torrent of res.torrents) {
-		if (torrent.status === transmission.status.STOPPED) {
-			transmission.remove(torrent.id).then(() => {
-				console.log(`${torrent.name} removed!`)
-			})
-		}
-	}
+  for (const torrent of res.torrents) {
+    if (torrent.status === transmission.status.STOPPED) {
+      transmission.remove(torrent.id).then(() => {
+        console.log(`${torrent.name} removed!`)
+      })
+    }
+  }
 }).catch(err => console.error(err))
 ```
 
@@ -172,7 +172,7 @@ State options: `STOPPED`, `CHECK_WAIT`, `CHECK`, `DOWNLOAD_WAIT`, `DOWNLOAD`, `S
 
 ```js
 transmission.waitForState(id, 'DOWNLOAD').then(res => {
-	// Torrent is downloading!
+  // Torrent is downloading!
 })
 ```
 
@@ -227,22 +227,22 @@ Renames a file or folder in a torrent. The `path` argument is the current relati
 ```js
 // Get the file information first
 transmission.get(id, ['files']).then(res => {
-	// Assume it's just one torrent...
-	const torrent = res.torrents[0]
+  // Assume it's just one torrent...
+  const torrent = res.torrents[0]
 
-	// Iterate over the files
-	// Renames all the files to something new
-	for (const file of torrent.files) {
-		const newName = makeNewName()
+  // Iterate over the files
+  // Renames all the files to something new
+  for (const file of torrent.files) {
+    const newName = makeNewName()
 
-		transmission.rename(torrent.id, file.name, newName)
-	}
+    transmission.rename(torrent.id, file.name, newName)
+  }
 
-	// Changes the torrent directory name
-	const p = require('path')
-	const directory = p.dirname(torrent.files[0])
+  // Changes the torrent directory name
+  const p = require('path')
+  const directory = p.dirname(torrent.files[0])
 
-	transmission.rename(torrent.id, directory, makeNewName())
+  transmission.rename(torrent.id, directory, makeNewName())
 })
 ```
 
