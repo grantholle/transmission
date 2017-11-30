@@ -290,4 +290,4 @@ transmission.freeSpace(path).then(res => ...)
 
 ## License
 
-MIT
+[MIT](LICENSE.md)
