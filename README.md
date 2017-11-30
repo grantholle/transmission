@@ -47,7 +47,7 @@ transmission.status = {
 
 ## Functions
 
-Functions that has an `ids` parameter can be passed either a single integer or an array of integers.
+Functions that have an `ids` parameter can usually be passed either a single integer or an array of integers.
 
 The `add` functions take a second `options` parameter that would be the arguments passed to Transmission. For example, if you want to set the download directory of the torrent you would pass in `"download-dir": "/my/path"`. See the [rpc-spec](https://gist.github.com/RobertAudi/807ec699037542646584) for more information.
 
