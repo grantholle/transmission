@@ -272,7 +272,7 @@ Set session infomation. See the [spec](https://gist.github.com/RobertAudi/807ec6
 transmission.session({ 'download-dir':'/my/path' }).then(res => ...)
 ```
 
-### `sessionStats(callback)`
+### `sessionStats()`
 
 Get client session stats. See the [spec](https://gist.github.com/RobertAudi/807ec699037542646584#42-session-statistics) for results.
 
