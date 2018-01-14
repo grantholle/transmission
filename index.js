@@ -1,7 +1,6 @@
 'use strict'
 
-const http = require('http')
-const https = require('https')
+const axios = require('axios')
 const fs = require('fs')
 const EventEmitter = require('events')
 const async = require('async')
@@ -11,7 +10,7 @@ const uuid = require('uuid/v4')
 class Transmission extends EventEmitter {
   /**
    * Available options:
-   * url
+   * path
    * host
    * port
    * ssl (boolean)
@@ -23,10 +22,12 @@ class Transmission extends EventEmitter {
   constructor (options = {}) {
     super()
 
-    this.url = options.url || '/transmission/rpc'
-    this.host = options.host || 'localhost'
-    this.port = options.port || 9091
-    this.ssl = options.ssl === true
+    const protocol = options.ssl === true ? 'https' : 'http'
+    const host = options.host || 'localhost'
+    const port = options.port || 9091
+    const path = options.url || '/transmission/rpc'
+
+    this.url = `${protocol}://${host}:${port}${path}`
     this.key = null
 
     if (options.username) {
@@ -141,63 +142,28 @@ class Transmission extends EventEmitter {
    */
   callServer (query) {
     return new Promise((resolve, reject) => {
-      const queryStringified = JSON.stringify(query)
-
-      const makeRequest = () => {
-        const options = {
-          host: this.host,
-          path: this.url,
-          port: this.port,
-          method: 'POST',
+      const makeRequest = async () => {
+        const config = {
           headers: {
-            'Time': new Date(),
-            'Host': this.host + ':' + this.port,
-            'X-Requested-With': 'Node',
-            'X-Transmission-Session-Id': this.key || '',
-            'Content-Length': queryStringified.length,
-            'Content-Type': 'application/json'
+            'X-Transmission-Session-Id': this.key || ''
           }
         }
 
         if (this.authHeader) {
-          options.headers.Authorization = this.authHeader
+          config.headers.Authorization = this.authHeader
         }
 
-        const onResponse = response => {
-          const page = []
-
-          const onEnd = () => {
-            if (response.statusCode === 409) {
-              this.key = response.headers['x-transmission-session-id']
-              return makeRequest()
-            }
-
-            const pages = page.join('')
-
-            if (response.statusCode !== 200) {
-              const error = new Error(`Received unsuccessful status code: ${response.statusCode}`)
-              error.result = pages
-
-              return reject(error)
-            }
-
-            const json = JSON.parse(pages)
-
-            if (json.result !== 'success') {
-              return reject(new Error(`Unsuccessful response from Transmission: ${pages}`))
-            }
-
-            resolve(json.arguments)
+        try {
+          const response = await axios.post(this.url, query, config)
+          resolve(response.data.arguments)
+        } catch (err) {
+          if (err.response.status === 409) {
+            this.key = err.response.headers['x-transmission-session-id']
+            return makeRequest()
           }
 
-          response.setEncoding('utf8')
-          response.on('data', chunk => page.push(chunk))
-          response.on('end', onEnd)
+          reject(err)
         }
-
-        const res = (this.ssl ? https : http).request(options, onResponse)
-
-        res.on('error', err => reject(err)).end(queryStringified, 'utf8')
       }
 
       makeRequest()
