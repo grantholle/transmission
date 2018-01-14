@@ -157,7 +157,7 @@ class Transmission extends EventEmitter {
           const response = await axios.post(this.url, query, config)
           resolve(response.data.arguments)
         } catch (err) {
-          if (err.response.status === 409) {
+          if (err.response && err.response.status === 409) {
             this.key = err.response.headers['x-transmission-session-id']
             return makeRequest()
           }
