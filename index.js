@@ -1,10 +1,9 @@
 'use strict'
 
 const axios = require('axios')
-const fs = require('fs')
 const EventEmitter = require('events')
 const async = require('async')
-const Buffer = require('safe-buffer').Buffer
+const Base64 = require('js-base64').Base64
 const uuid = require('uuid/v4')
 
 class Transmission extends EventEmitter {
@@ -31,7 +30,7 @@ class Transmission extends EventEmitter {
     this.key = null
 
     if (options.username) {
-      this.authHeader = 'Basic ' + new Buffer(options.username + (options.password ? ':' + options.password : '')).toString('base64')
+      this.authHeader = 'Basic ' + Base64.encode(options.username + (options.password ? ':' + options.password : ''))
     }
 
     this.statusArray = ['STOPPED', 'CHECK_WAIT', 'CHECK', 'DOWNLOAD_WAIT', 'DOWNLOAD', 'SEED_WAIT', 'SEED', 'ISOLATED']
@@ -155,6 +154,11 @@ class Transmission extends EventEmitter {
 
         try {
           const response = await axios.post(this.url, query, config)
+
+          if (typeof response.data.result === 'string' && response.data.result !== 'success') {
+            throw new Error(response.data.result)
+          }
+
           resolve(response.data.arguments)
         } catch (err) {
           if (err.response && err.response.status === 409) {
@@ -219,19 +223,7 @@ class Transmission extends EventEmitter {
    * @returns {Promise}
    */
   addFile (filePath, options = {}) {
-    const readFile = () => {
-      return new Promise((resolve, reject) => {
-        fs.readFile(filePath, (err, data) => {
-          if (err) {
-            return reject(err)
-          }
-
-          resolve(new Buffer(data).toString('base64'))
-        })
-      })
-    }
-
-    return readFile().then(res => this.addBase64(res, options))
+    return this.addTorrentDataSrc({ filename: filePath }, options)
   }
 
   /**
