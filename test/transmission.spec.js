@@ -37,8 +37,8 @@ describe('transmission', () => {
   const expect = chai.expect
   let transmission
 
-  const sampleUrl = 'http://releases.ubuntu.com/16.04/ubuntu-16.04.3-desktop-amd64.iso.torrent'
-  const sampleHash = '1488d454915d860529903b61adb537012a0fe7c8'
+  const sampleUrl = 'http://releases.ubuntu.com/16.04/ubuntu-16.04.5-desktop-amd64.iso.torrent'
+  const sampleHash = 'c3c5fe05c329ae51c6eca464f6b30ba0a457b2ca'
 
   chai.config.includeStack = true
 
@@ -101,17 +101,15 @@ describe('transmission', () => {
 
     it('should add torrent from file path', done => {
       http.get(sampleUrl, response => {
-        const destination = path.resolve('tmp', 'debian.torrent')
+        const destination = path.resolve('tmp', path.basename(sampleUrl))
         const writeStream = fs.createWriteStream(destination)
 
         response.pipe(writeStream)
         response.on('error', done)
         response.on('end', () => {
           transmission.addFile(destination).then(info => {
-            return transmission.get(info.id)
-          }).then(got => {
-            if (got.torrents.length === 0) {
-              return done(new Error('add torrent failure'))
+            if (!info || !info.id) {
+              return done(new Error('Add torrent failure'))
             }
 
             done()
@@ -134,15 +132,14 @@ describe('transmission', () => {
 
     it('should rename the torrent', function (done) {
       const newName = 'windows-10-installer.exe'
-      const path = 'ubuntu-16.04.3-desktop-amd64.iso'
 
       transmission.addUrl(sampleUrl).then(info => {
-        return transmission.rename(info.id, path, newName)
+        return transmission.rename(info.id, info.name, newName)
       }).then(info => {
         return transmission.get(info.id)
       }).then(got => {
         if (newName !== got.torrents[0].name) {
-          done(new Error('rename torrent failure'))
+          return done(new Error('rename torrent failure'))
         }
 
         done()
@@ -159,7 +156,7 @@ describe('transmission', () => {
           transmission.get().then(got => {
             async.each(got.torrents, (torrent, callback) => {
               if (torrent.status !== transmission.status.STOPPED) {
-                callback(new Error('Stop torrent failure'))
+                return callback(new Error('Stop torrent failure'))
               }
 
               callback()
@@ -181,12 +178,12 @@ describe('transmission', () => {
       transmission.addUrl(sampleUrl).then(info => {
         return transmission.waitForState(id, 'DOWNLOAD')
       }).then(info => {
-        return transmission.stopAll(id)
+        return transmission.stop(id)
       }).then(info => {
         setTimeout(() => {
           transmission.get(id).then(got => {
             if (got.torrents[0].status !== transmission.status.STOPPED) {
-              done(new Error('Stop torrent failure'))
+              return done(new Error('Stop torrent failure'))
             }
 
             done()
