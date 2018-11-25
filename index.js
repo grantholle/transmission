@@ -29,7 +29,7 @@ class Transmission extends EventEmitter {
     this.url = `${protocol}://${host}:${port}${path}`
     this.key = null
 
-    if (options.username) {
+    if ('username' in options) {
       this.authHeader = 'Basic ' + Base64.encode(options.username + (options.password ? ':' + options.password : ''))
     }
 
