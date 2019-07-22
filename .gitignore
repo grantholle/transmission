@@ -8,3 +8,4 @@ npm-debug.log
 tmp
 .vscode
 example.js
+.idea
