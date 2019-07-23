@@ -49,29 +49,29 @@ class Transmission extends EventEmitter {
         reannounce: 'torrent-reannounce',
         set: 'torrent-set',
         setTypes: {
-          'bandwidthPriority': true,
-          'downloadLimit': true,
-          'downloadLimited': true,
+          bandwidthPriority: true,
+          downloadLimit: true,
+          downloadLimited: true,
           'files-wanted': true,
           'files-unwanted': true,
-          'honorsSessionLimits': true,
-          'ids': true,
-          'location': true,
+          honorsSessionLimits: true,
+          ids: true,
+          location: true,
           'peer-limit': true,
           'priority-high': true,
           'priority-low': true,
           'priority-normal': true,
-          'seedRatioLimit': true,
-          'seedRatioMode': true,
-          'uploadLimit': true,
-          'uploadLimited': true
+          seedRatioLimit: true,
+          seedRatioMode: true,
+          uploadLimit: true,
+          uploadLimited: true
         },
         add: 'torrent-add',
         addTypes: {
           'download-dir': true,
-          'filename': true,
-          'metainfo': true,
-          'paused': true,
+          filename: true,
+          metainfo: true,
+          paused: true,
           'peer-limit': true,
           'files-wanted': true,
           'files-unwanted': true,
@@ -82,14 +82,14 @@ class Transmission extends EventEmitter {
         rename: 'torrent-rename-path',
         remove: 'torrent-remove',
         removeTypes: {
-          'ids': true,
+          ids: true,
           'delete-local-data': true
         },
         location: 'torrent-set-location',
         locationTypes: {
-          'location': true,
-          'ids': true,
-          'move': true
+          location: true,
+          ids: true,
+          move: true
         },
         get: 'torrent-get',
         fields: ['activityDate', 'addedDate', 'bandwidthPriority', 'comment', 'corruptEver', 'creator', 'dateCreated', 'desiredAvailable', 'doneDate', 'downloadDir', 'downloadedEver', 'downloadLimit', 'downloadLimited', 'error', 'errorString', 'eta', 'files', 'fileStats', 'hashString', 'haveUnchecked', 'haveValid', 'honorsSessionLimits', 'id', 'isFinished', 'isPrivate', 'leftUntilDone', 'magnetLink', 'manualAnnounceTime', 'maxConnectedPeers', 'metadataPercentComplete', 'name', 'peer-limit', 'peers', 'peersConnected', 'peersFrom', 'peersGettingFromUs', 'peersKnown', 'peersSendingToUs', 'percentDone', 'pieces', 'pieceCount', 'pieceSize', 'priorities', 'rateDownload', 'rateUpload', 'recheckProgress', 'seedIdleLimit', 'seedIdleMode', 'seedRatioLimit', 'seedRatioMode', 'sizeWhenDone', 'startDate', 'status', 'trackers', 'trackerStats', 'totalSize', 'torrentFile', 'uploadedEver', 'uploadLimit', 'uploadLimited', 'uploadRatio', 'wanted', 'webseeds', 'webseedsSendingToUs']
@@ -109,7 +109,7 @@ class Transmission extends EventEmitter {
           'alt-speed-up': true,
           'blocklist-enabled': true,
           'dht-enabled': true,
-          'encryption': true,
+          encryption: true,
           'download-dir': true,
           'peer-limit-global': true,
           'peer-limit-per-torrent': true,
@@ -117,8 +117,8 @@ class Transmission extends EventEmitter {
           'peer-port': true,
           'peer-port-random-on-start': true,
           'port-forwarding-enabled': true,
-          'seedRatioLimit': true,
-          'seedRatioLimited': true,
+          seedRatioLimit: true,
+          seedRatioLimited: true,
           'speed-limit-down': true,
           'speed-limit-down-enabled': true,
           'speed-limit-up': true,
@@ -199,8 +199,8 @@ class Transmission extends EventEmitter {
         method: this.methods.torrents.set,
         tag: uuid()
       })
-      .then(res => resolve(res))
-      .catch(err => reject(err))
+        .then(res => resolve(res))
+        .catch(err => reject(err))
     })
   }
 
@@ -322,7 +322,7 @@ class Transmission extends EventEmitter {
    *
    * @param {integer|Array} ids An array of ids or just a single id of the torrent file(s)
    * @param {String} path The path to the file or folder that will be renamed, relative to the root torrent folder
-   * @param {String} name The file or folder's new name
+   * @param {String} name The file or folder"s new name
    * @returns {Promise}
    */
   rename (ids, path, name) {
