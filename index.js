@@ -122,7 +122,9 @@ class Transmission extends EventEmitter {
           'speed-limit-down': true,
           'speed-limit-down-enabled': true,
           'speed-limit-up': true,
-          'speed-limit-up-enabled': true
+          'speed-limit-up-enabled': true,
+          'script-torrent-done-enabled': true,
+          'script-torrent-done-filename': true
         }
       },
       other: {
