@@ -1,0 +1,23 @@
+{
+  "files": [
+    "index.js"
+  ],
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "ES2016",
+    "module": "commonjs",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "noEmit": false,
+	"declaration": true,
+	"emitDeclarationOnly": true,
+
+    /* Strict Type-Checking Options */
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+
+    /* Additional Checks */
+    "noUnusedLocals": true
+  }
+}

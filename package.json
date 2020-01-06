@@ -10,7 +10,8 @@
   ],
   "scripts": {
     "test": "./node_modules/.bin/mocha --ui bdd --reporter spec --colors",
-    "lint": "./node_modules/.bin/standard"
+    "lint": "./node_modules/.bin/standard",
+    "declaration:build": "rm -f index.d.ts && tsc"
   },
   "repository": "https://github.com/grantholle/transmission",
   "main": "index.js",
@@ -18,7 +19,8 @@
     "chai": "^1.9.2",
     "dotenv": "^0.4.0",
     "mocha": "^5.2.0",
-    "standard": "^13.1.0"
+    "standard": "^13.1.0",
+    "typescript": "^3.7.4"
   },
   "dependencies": {
     "async": "^2.6.3",
