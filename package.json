@@ -23,7 +23,7 @@
     "typescript": "^3.7.4"
   },
   "dependencies": {
-    "async": "^2.6.3",
+    "async": "^3.2.2",
     "axios": "^0.21.1",
     "js-base64": "^2.5.1",
     "uuid": "^3.3.2"
