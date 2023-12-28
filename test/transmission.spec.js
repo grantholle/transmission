@@ -37,7 +37,7 @@ describe('transmission', () => {
   const expect = chai.expect
   let transmission
 
-  const sampleUrl = 'http://releases.ubuntu.com/18.04/ubuntu-18.04.2-desktop-amd64.iso.torrent'
+  const sampleUrl = 'http://releases.ubuntu.com/22.04/ubuntu-22.04.3-desktop-amd64.iso.torrent'
   const sampleHash = 'c3c5fe05c329ae51c6eca464f6b30ba0a457b2ca'
 
   chai.config.includeStack = true
@@ -174,6 +174,14 @@ describe('transmission', () => {
     it('should stop a torrent', done => {
       transmission.get().then(info => {
         transmission.stop(info.torrents[0].id).then(info => {
+          done()
+        })
+      })
+    })
+
+    it('should remove the torrent', done => {
+      transmission.get().then(info => {
+        transmission.remove(info.torrents[0].id).then(info => {
           done()
         })
       })
