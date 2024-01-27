@@ -18,7 +18,16 @@ declare class Transmission extends Transmission_base {
     key: any;
     authHeader: string;
     statusArray: string[];
-    status: {};
+    status: {
+      STOPPED: 0;
+      CHECK_WAIT: 1;
+      CHECK: 2;
+      DOWNLOAD_WAIT: 3;
+      DOWNLOAD: 4;
+      SEED_WAIT: 5;
+      SEED: 6;
+      ISOLATED: 7;
+    };
     methods: {
         torrents: {
             stop: string;
